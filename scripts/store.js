@@ -17,8 +17,8 @@ const store = (function () {
 
   function addItem(name) {
     try {
-      Item.validateName(name); 
-      this.items.push(Item.create(name)); 
+      Item.validateName(name);
+      this.items.push(Item.create(name));
     }
     catch {
       throw new Error('not a valid name');
@@ -26,14 +26,37 @@ const store = (function () {
   }
 
   function findAndToggleById(id) {
-    let theItem = this.items.findById(id);
-    return theItem.checked = !theItem.checked;
+    const theItem = this.items.findById(id);
+    theItem.checked = !theItem.checked;
+  }
+
+  function findAndUpdateName(id, newName){
+    try {
+      const theItem = this.items.findById(id);
+      theItem.name = newName;
+      theItem.validateName(newName);
+    }
+    catch(error){
+      throw new Error('not a valid name: ' + error.message);
+    }
+  }
+
+  function findAndDelete(id){
+    const theItem = this.items.findById(id);
+    let index = this.items.indexOf(theItem);
+    this.items.splice(index, 1);
   }
 
   return {
     items,
     hideCheckedItems,
-    searchTerm
+    searchTerm,
+    findById,
+    findAndDelete,
+    findAndUpdateName,
+    findAndToggleById,
+    addItem
+
   }
 
 }() );
