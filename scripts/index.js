@@ -5,7 +5,7 @@
 $(document).ready(function() {
   shoppingList.bindEventListeners();
   shoppingList.render();
-  const itemNames = [ '', 'apples', 'pears' ];
+  const itemNames = [ '', 'apricots', 'pears' ];
 itemNames.forEach(name => {
   try {
     Item.validateName(name);
