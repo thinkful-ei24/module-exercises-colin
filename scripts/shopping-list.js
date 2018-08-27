@@ -38,12 +38,12 @@ const shoppingList = (function(){
     // Filter item list if store prop is true by item.checked === false
     let items = store.items;
     if (store.hideCheckedItems) {
-      items = store.items.filter(item => !item.checked);
+      items = items.filter(item => !item.checked);
     }
 
     // Filter item list if store prop `searchTerm` is not empty
     if (store.searchTerm) {
-      items = store.items.filter(item => item.name.includes(store.searchTerm));
+      items = items.filter(item => item.name.includes(store.searchTerm));
     }
 
     // render the shopping list in the DOM
@@ -89,7 +89,8 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-      toggleCheckedForListItem(id);
+      console.log('this should be the cuid ' + id);
+      store.findAndToggleById(id);
       render();
     });
   }
@@ -104,13 +105,14 @@ const shoppingList = (function(){
     item.name = itemName;
   }
 
-  function toggleCheckedItemsFilter() {
-    store.hideCheckedItems = !store.hideCheckedItems;
-  }
 
-  function setSearchTerm(val) {
-    store.searchTerm = val;
-  }
+  // function toggleCheckedItemsFilter() {
+  //   store.hideCheckedItems = !store.hideCheckedItems;
+  // }
+
+  // function setSearchTerm(val) {
+  //   store.searchTerm = val;
+  // }
 
 
   function handleDeleteItemClicked() {
@@ -137,7 +139,7 @@ const shoppingList = (function(){
 
   function handleToggleFilterClick() {
     $('.js-filter-checked').click(() => {
-      toggleCheckedItemsFilter();
+      store.toggleCheckedFilter();
       render();
     });
   }
@@ -145,7 +147,7 @@ const shoppingList = (function(){
   function handleShoppingListSearch() {
     $('.js-shopping-list-search-entry').on('keyup', event => {
       const val = $(event.currentTarget).val();
-      setSearchTerm(val);
+      store.setSearchTerm(val);
       render();
     });
   }
