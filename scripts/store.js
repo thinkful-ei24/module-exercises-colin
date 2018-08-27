@@ -11,6 +11,24 @@ const store = (function () {
   let hideCheckedItems = false;
   let searchTerm = '';
 
+  function findById(id) {
+    return items.find(item => item.id === id);
+  }
+
+  function addItem(name) {
+    try {
+      Item.validateName(name); 
+      this.items.push(Item.create(name)); 
+    }
+    catch {
+      throw new Error('not a valid name');
+    }
+  }
+
+  function findAndToggleById(id) {
+    let theItem = this.items.findById(id);
+    return theItem.checked = !theItem.checked;
+  }
 
   return {
     items,
